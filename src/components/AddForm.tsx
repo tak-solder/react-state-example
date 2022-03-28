@@ -1,24 +1,18 @@
 import {ChangeEvent, FormEvent, useState} from 'react'
 import {Box, Button, FormControl, FormLabel, Heading, Input} from "@chakra-ui/react";
 import {AddIcon} from "@chakra-ui/icons";
-import {v4 as uuid} from "uuid";
-import {Todo} from "../models/Todo";
+import {AddTodo} from "../models/Todo";
 
 export type AddFormProps = {
-    todos: Todo[]
-    setTodos: (todos: Todo[]) => void
+    addTodo: AddTodo
 }
 
-const AddForm = ({todos, setTodos}: AddFormProps) => {
+const AddForm = ({addTodo}: AddFormProps) => {
     const [text, setText] = useState<string>("")
 
     const submitForm = (event: FormEvent) => {
         event.preventDefault()
-        const todo: Todo = {
-            id: uuid(),
-            task: text
-        }
-        setTodos([...todos, todo])
+        addTodo(text)
         setText("")
     }
 

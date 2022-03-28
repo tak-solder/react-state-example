@@ -1,17 +1,15 @@
 import {Box, Button} from "@chakra-ui/react";
 import {DeleteIcon} from "@chakra-ui/icons";
-import {Todo} from "../models/Todo";
+import {DeleteTodo, Todo} from "../models/Todo";
 
 export type TaskListProps = {
     todo: Todo
-    todos: Todo[]
-    setTodos: (todos: Todo[]) => void
+    deleteTodo: DeleteTodo
 }
 
-const TaskItem = ({todo: {id, task}, todos, setTodos}:TaskListProps) => {
-    const deleteTodo = (id: string) => {
-        const newTodos = todos.filter(todo => todo.id !== id)
-        setTodos(newTodos)
+const TaskItem = ({todo: {id, task}, deleteTodo}:TaskListProps) => {
+    const onClick = () => {
+        deleteTodo(id)
     }
 
     return (
@@ -19,7 +17,7 @@ const TaskItem = ({todo: {id, task}, todos, setTodos}:TaskListProps) => {
             <Box mb="0.5rem">
                 {task}
             </Box>
-            <Button leftIcon={<DeleteIcon/>} colorScheme="red" size="xs" onClick={_ => deleteTodo(id)}>
+            <Button leftIcon={<DeleteIcon/>} colorScheme="red" size="xs" onClick={onClick}>
                 タスク削除
             </Button>
         </Box>
