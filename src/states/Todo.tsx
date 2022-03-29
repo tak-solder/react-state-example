@@ -1,41 +1,35 @@
-import React, {useContext, useState} from "react";
+import React from "react";
 import {Todo} from "../models/Todo";
 import {v4 as uuid} from "uuid";
+import {atom, useAtom} from "jotai";
 
-type TodoContextType = {
+type UseTodosType = {
     todos: Todo[]
     addTodo: (task: string) => void
     deleteTodo: (id: string) => void
 }
 
-const TodoContext = React.createContext<TodoContextType>({
-    todos: [],
-    addTodo: _ => {},
-    deleteTodo: _ => {},
-});
+const todosAtom = atom<Todo[]>([])
 
-type UseTodos = () => TodoContextType
+type UseTodos = () => UseTodosType
 
-export const useTodos: UseTodos = () => useContext(TodoContext)
+export const useTodos: UseTodos = () => {
+    const [todos, setTodos] = useAtom(todosAtom)
 
-export const TodoProvider: React.FC = ({children}) => {
-    const [todos, setTodos] = useState<Todo[]>([])
     const addTodo = (task: string) => {
         const todo: Todo = {
             id: uuid(),
             task
         }
-        setTodos([...todos, todo])
+        // setTodos([...todos, todo])
+        setTodos((currentTodos) => [...currentTodos, todo]) //最新の状態に対して更新処理
     }
 
     const deleteTodo = (id: string) => {
-        const newTodos = todos.filter(todo => todo.id !== id)
-        setTodos(newTodos)
+        // const newTodos = todos.filter(todo => todo.id !== id)
+        // setTodos(newTodos)
+        setTodos((currentTodos) => currentTodos.filter(todo => todo.id !== id)) //最新の状態に対して更新処理
     }
 
-    return (
-        <TodoContext.Provider value={{todos, addTodo, deleteTodo}}>
-            {children}
-        </TodoContext.Provider>
-    )
+    return {todos, addTodo, deleteTodo}
 }
