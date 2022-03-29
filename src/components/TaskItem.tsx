@@ -1,13 +1,15 @@
 import {Box, Button} from "@chakra-ui/react";
 import {DeleteIcon} from "@chakra-ui/icons";
-import {DeleteTodo, Todo} from "../models/Todo";
+import {Todo} from "../models/Todo";
+import {useTodos} from "../states/Todo";
 
 export type TaskListProps = {
     todo: Todo
-    deleteTodo: DeleteTodo
 }
 
-const TaskItem = ({todo: {id, task}, deleteTodo}:TaskListProps) => {
+const TaskItem = ({todo: {id, task}} :TaskListProps) => {
+    const {deleteTodo} = useTodos()
+
     const onClick = () => {
         deleteTodo(id)
     }
