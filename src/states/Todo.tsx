@@ -25,12 +25,14 @@ export const useTodos: UseTodos = () => {
             id: uuid(),
             task
         }
-        setTodos([...todos, todo])
+        // setTodos([...todos, todo])
+        setTodos((currentTodos) => [...currentTodos, todo]) //最新の状態に対して更新処理
     }
 
     const deleteTodo = (id: string) => {
-        const newTodos = todos.filter(todo => todo.id !== id)
-        setTodos(newTodos)
+        // const newTodos = todos.filter(todo => todo.id !== id)
+        // setTodos(newTodos)
+        setTodos((currentTodos) => currentTodos.filter(todo => todo.id !== id)) //最新の状態に対して更新処理
     }
 
     return {todos, addTodo, deleteTodo}
