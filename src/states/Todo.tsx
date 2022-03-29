@@ -1,25 +1,25 @@
-import React, {useContext, useState} from "react";
+import React from "react";
 import {Todo} from "../models/Todo";
 import {v4 as uuid} from "uuid";
+import {atom, useRecoilState} from "recoil";
+import AtomKeys from "./atomKeys";
 
-type TodoContextType = {
+type UseTodosType = {
     todos: Todo[]
     addTodo: (task: string) => void
     deleteTodo: (id: string) => void
 }
 
-const TodoContext = React.createContext<TodoContextType>({
-    todos: [],
-    addTodo: _ => {},
-    deleteTodo: _ => {},
-});
+const todosAtom = atom<Todo[]>({
+    key: AtomKeys.TODO,
+    default: []
+})
 
-type UseTodos = () => TodoContextType
+type UseTodos = () => UseTodosType
 
-export const useTodos: UseTodos = () => useContext(TodoContext)
+export const useTodos: UseTodos = () => {
+    const [todos, setTodos] = useRecoilState(todosAtom)
 
-export const TodoProvider: React.FC = ({children}) => {
-    const [todos, setTodos] = useState<Todo[]>([])
     const addTodo = (task: string) => {
         const todo: Todo = {
             id: uuid(),
@@ -33,9 +33,5 @@ export const TodoProvider: React.FC = ({children}) => {
         setTodos(newTodos)
     }
 
-    return (
-        <TodoContext.Provider value={{todos, addTodo, deleteTodo}}>
-            {children}
-        </TodoContext.Provider>
-    )
+    return {todos, addTodo, deleteTodo}
 }

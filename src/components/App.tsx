@@ -1,16 +1,16 @@
 import {Container} from "@chakra-ui/react";
 import AddForm from "./AddForm";
 import TaskList from "./TaskList";
-import {TodoProvider} from "../states/Todo";
+import {RecoilRoot} from "recoil";
 
 function App() {
     return (
-        <TodoProvider>
+        <RecoilRoot>
             <Container>
                 <AddForm />
                 <TaskList />
             </Container>
-        </TodoProvider>
+        </RecoilRoot>
     );
 }
 
