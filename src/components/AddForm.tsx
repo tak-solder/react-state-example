@@ -1,11 +1,12 @@
 import {ChangeEvent, FormEvent, useState} from 'react'
 import {Box, Button, FormControl, FormLabel, Heading, Input} from "@chakra-ui/react";
 import {AddIcon} from "@chakra-ui/icons";
-import {useTodos} from "../states/Todo";
+import {useTodoMethods} from "../states/atoms/Todos";
 
 const AddForm = () => {
     const [text, setText] = useState<string>("")
-    const {addTodo} = useTodos()
+    const {addTodo} = useTodoMethods()
+    console.log('render AddForm')
 
     const submitForm = (event: FormEvent) => {
         event.preventDefault()
